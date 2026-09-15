@@ -1,0 +1,51 @@
+{
+  "name": "@harness/cli",
+  "version": "0.1.0",
+  "description": "Interactive CLI — commands, config loader, renderers",
+  "keywords": [
+    "agent",
+    "ai",
+    "cli",
+    "coding-agent",
+    "ink",
+    "terminal",
+    "tui"
+  ],
+  "license": "MIT",
+  "bin": {
+    "harness": "./src/index.ts",
+    "thakurcode": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@clack/prompts": "1.8.0",
+    "@harness/core": "workspace:*",
+    "@harness/providers": "workspace:*",
+    "@harness/sdk": "workspace:*",
+    "@harness/tools": "workspace:*",
+    "ai": "7.0.97",
+    "commander": "15.0.0",
+    "ink": "7.1.1",
+    "react": "19.3.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "react-devtools-core": "8.0.0"
+  },
+  "engines": {
+    "bun": ">=1.4.2"
+  }
+}

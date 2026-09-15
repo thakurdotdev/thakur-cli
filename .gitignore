@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# build artifacts
+dist/
+out/
+*.tsbuildinfo
+
+# harness runtime state (sessions live here; never commit transcripts)
+.harness/
+
+# environment and secrets
+.env
+.env.*
+
+# tooling
+coverage/
+.vitest-cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db

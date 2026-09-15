@@ -1,0 +1,37 @@
+{
+  "name": "harness",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI coding harness \u2014 a multi-model coding agent engine with CLI, headless and SDK frontends",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "bun": ">=1.4.2"
+  },
+  "scripts": {
+    "dev": "bun packages/cli/src/index.ts",
+    "typecheck": "tsc --noEmit -p packages/core && tsc --noEmit -p packages/tools && tsc --noEmit -p packages/providers && tsc --noEmit -p packages/sdk && tsc --noEmit -p packages/cli",
+    "lint": "oxlint packages",
+    "format": "oxfmt packages",
+    "format:check": "oxfmt --check packages",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run test",
+    "build": "bun build --compile packages/cli/src/index.ts --outfile dist/thakurcode",
+    "smoke": "bun scripts/smoke.ts",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "build:bin": "bash scripts/build-binaries.sh"
+  },
+  "devDependencies": {
+    "@changesets/cli": "3.0.2",
+    "@types/bun": "1.4.2",
+    "oxfmt": "0.67.0",
+    "oxlint": "1.82.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  }
+}

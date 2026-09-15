@@ -1,0 +1,35 @@
+{
+  "name": "@harness/sdk",
+  "version": "0.1.0",
+  "description": "Batteries-included programmatic API — createHarness() wires model, tools, MCP servers, permissions, compaction and sessions behind one run() call",
+  "keywords": [
+    "agent",
+    "ai",
+    "harness",
+    "programmatic",
+    "sdk"
+  ],
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@harness/core": "workspace:*",
+    "@harness/providers": "workspace:*",
+    "@harness/tools": "workspace:*",
+    "ai": "7.0.97"
+  },
+  "engines": {
+    "bun": ">=1.4.2"
+  }
+}

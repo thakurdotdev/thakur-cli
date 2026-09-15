@@ -1,0 +1,39 @@
+{
+  "name": "@harness/tools",
+  "version": "0.1.0",
+  "description": "Builtin tool implementations and registry — read/write/edit/bash/grep/glob/list_dir",
+  "keywords": [
+    "agent",
+    "ai",
+    "bash",
+    "filesystem",
+    "grep",
+    "tools"
+  ],
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@harness/core": "workspace:*",
+    "@vscode/ripgrep": "1.18.0",
+    "picomatch": "4.0.7",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/picomatch": "4.0.3"
+  },
+  "engines": {
+    "bun": ">=1.4.2"
+  }
+}

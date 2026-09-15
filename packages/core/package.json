@@ -1,0 +1,40 @@
+{
+  "name": "@harness/core",
+  "version": "0.1.0",
+  "description": "Agent loop, event bus, context and permission primitives — zero CLI dependencies",
+  "keywords": [
+    "agent",
+    "ai",
+    "coding-agent",
+    "events",
+    "llm",
+    "mcp",
+    "tools"
+  ],
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "ai": "7.0.97",
+    "picomatch": "4.0.7",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@harness/tools": "workspace:*",
+    "@types/picomatch": "4.0.3"
+  },
+  "engines": {
+    "bun": ">=1.4.2"
+  }
+}
