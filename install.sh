@@ -242,14 +242,37 @@ main() {
       log_info "Bun detected — compiling standalone executable locally..."
       bun build --compile packages/cli/src/index.ts --outfile "$temp_file"
       downloaded=1
+    elif command -v bun >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
+      log_info "No GitHub release asset found, but Bun and Git are available."
+      log_info "Building standalone thakurcode executable from repository..."
+      local clone_dir="$TEMP_DIR/clone"
+      if git clone --depth 1 "https://github.com/${repo}.git" "$clone_dir" >/dev/null 2>&1; then
+        (
+          cd "$clone_dir"
+          bun install --frozen-lockfile >/dev/null 2>&1 || bun install >/dev/null 2>&1
+          bun build --compile packages/cli/src/index.ts --outfile "$temp_file" >/dev/null 2>&1
+        )
+        if [ -f "$temp_file" ]; then
+          downloaded=1
+        fi
+      fi
     fi
   fi
 
   if [ "$downloaded" -eq 0 ]; then
     log_error "Installation failed: Unable to fetch binary."
     echo ""
-    echo "To download from GitHub, publish a release at https://github.com/${repo}/releases"
-    echo "or specify THAKURCODE_DOWNLOAD_URL to point to an accessible binary location."
+    echo -e "${YELLOW}No GitHub release asset found for ${repo}.${RESET}"
+    echo ""
+    echo "To make pre-compiled binaries available for 1-command install via curl:"
+    echo "  1. Push a version tag from your repo to trigger the automated GitHub Release build:"
+    echo "     git tag v0.1.0"
+    echo "     git push origin v0.1.0"
+    echo ""
+    echo "  2. Or manually create a release at:"
+    echo "     https://github.com/${repo}/releases/new"
+    echo ""
+    echo "  3. Or install Bun (curl -fsSL https://bun.sh/install | bash) to compile on the fly."
     exit 1
   fi
 
