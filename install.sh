@@ -2,11 +2,11 @@
 #
 # thakurcode installer
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/thakurdotdev/takur-cli/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/thakurdotdev/thakur-cli/main/install.sh | bash
 #
 # Environment variables:
 #   THAKURCODE_INSTALL_DIR : Directory to install thakurcode (default: ~/.thakurcode/bin)
-#   GITHUB_REPO            : GitHub repository in owner/repo format (default: thakurdotdev/takur-cli)
+#   GITHUB_REPO            : GitHub repository in owner/repo format (default: thakurdotdev/thakur-cli)
 #   THAKURCODE_VERSION     : Version or tag to install (default: latest)
 #   THAKURCODE_DOWNLOAD_URL: Direct URL to download binary from
 
@@ -187,7 +187,7 @@ main() {
 
   local target_artifact="thakurcode-${os}-${arch}${ext}"
   local install_dir="${THAKURCODE_INSTALL_DIR:-$HOME/.thakurcode/bin}"
-  local repo="${GITHUB_REPO:-thakurdotdev/takur-cli}"
+  local repo="${GITHUB_REPO:-thakurdotdev/thakur-cli}"
   local version="${THAKURCODE_VERSION:-latest}"
   local target_binary="$install_dir/thakurcode${ext}"
   local legacy_binary="$install_dir/harness${ext}"

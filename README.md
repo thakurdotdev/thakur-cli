@@ -25,13 +25,13 @@ boundary is what lets the same engine power the REPL, CI runs, and embedders.
 Install `thakurcode` in one command (macOS and Linux):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/thakurdotdev/takur-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/thakurdotdev/thakur-cli/main/install.sh | bash
 ```
 
 Or on Windows PowerShell:
 
 ```powershell
-powershell -c "irm https://raw.githubusercontent.com/thakurdotdev/takur-cli/main/install.ps1 | iex"
+powershell -c "irm https://raw.githubusercontent.com/thakurdotdev/thakur-cli/main/install.ps1 | iex"
 ```
 
 Once installed, launch the agent from anywhere with:

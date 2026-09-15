@@ -1,10 +1,10 @@
 # thakurcode Windows PowerShell installer
 # Usage:
-#   powershell -c "irm https://raw.githubusercontent.com/thakurdotdev/takur-cli/main/install.ps1 | iex"
+#   powershell -c "irm https://raw.githubusercontent.com/thakurdotdev/thakur-cli/main/install.ps1 | iex"
 
 $ErrorActionPreference = "Stop"
 
-$repo = if ($env:GITHUB_REPO) { $env:GITHUB_REPO } else { "thakurdotdev/takur-cli" }
+$repo = if ($env:GITHUB_REPO) { $env:GITHUB_REPO } else { "thakurdotdev/thakur-cli" }
 $version = if ($env:THAKURCODE_VERSION) { $env:THAKURCODE_VERSION } else { "latest" }
 $installDir = if ($env:THAKURCODE_INSTALL_DIR) { $env:THAKURCODE_INSTALL_DIR } else { "$env:USERPROFILE\.thakurcode\bin" }
 
