@@ -192,6 +192,59 @@ main() {
   local target_binary="$install_dir/thakurcode${ext}"
   local legacy_binary="$install_dir/harness${ext}"
 
+  local force=0
+  for arg in "$@"; do
+    if [ "$arg" = "--force" ] || [ "$arg" = "-f" ]; then
+      force=1
+    fi
+  done
+  if [ "${THAKURCODE_FORCE:-0}" = "1" ]; then
+    force=1
+  fi
+
+  # Check if thakurcode is already installed and check its version
+  local installed_version=""
+  if [ -x "$target_binary" ]; then
+    installed_version="$("$target_binary" --version 2>/dev/null || true)"
+    installed_version="$(echo "$installed_version" | tr -d '[:space:]')"
+  fi
+
+  # Resolve latest version tag from GitHub if version is "latest"
+  local target_tag="$version"
+  if [ "$version" = "latest" ]; then
+    local resolved_url
+    resolved_url="$(curl -sIL -o /dev/null -w "%{url_effective}" "https://github.com/${repo}/releases/latest" 2>/dev/null || true)"
+    if [[ "$resolved_url" =~ /tag/(.+) ]]; then
+      target_tag="${BASH_REMATCH[1]}"
+    fi
+  fi
+
+  local clean_installed="${installed_version#v}"
+  local clean_target="${target_tag#v}"
+
+  # Skip download if already on the latest / target version
+  if [ -n "$clean_installed" ] && [ -n "$clean_target" ] && [ "$clean_target" != "latest" ] && [ "$clean_installed" = "$clean_target" ] && [ "$force" -eq 0 ]; then
+    log_success "${BOLD}thakurcode v${clean_installed}${RESET} is already installed and up to date!"
+    log_info "Location: ${DIM}${target_binary}${RESET}"
+
+    # Ensure PATH and symlink are present
+    update_shell_path "$install_dir"
+    if [[ ":$PATH:" == *":$HOME/.local/bin:"* ]] && [ -d "$HOME/.local/bin" ] && [ -w "$HOME/.local/bin" ]; then
+      ln -sf "$target_binary" "$HOME/.local/bin/thakurcode" 2>/dev/null || true
+      ln -sf "$legacy_binary" "$HOME/.local/bin/harness" 2>/dev/null || true
+    fi
+
+    echo ""
+    echo -e "Run ${CYAN}${BOLD}thakurcode${RESET} to start."
+    echo -e "${DIM}To force re-installation, run with THAKURCODE_FORCE=1 or pass --force${RESET}"
+    echo ""
+    return 0
+  fi
+
+  if [ -n "$clean_installed" ] && [ -n "$clean_target" ] && [ "$clean_target" != "latest" ] && [ "$clean_installed" != "$clean_target" ]; then
+    log_info "Upgrading thakurcode: ${BOLD}v${clean_installed}${RESET} → ${BOLD}v${clean_target}${RESET}..."
+  fi
+
   log_info "Detected platform: ${BOLD}${os}-${arch}${RESET}"
   log_info "Installing to: ${BOLD}${install_dir}${RESET}"
 

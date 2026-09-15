@@ -39,6 +39,35 @@ if (!(Test-Path $installDir)) {
 
 $targetPath = Join-Path $installDir "thakurcode.exe"
 $legacyPath = Join-Path $installDir "harness.exe"
+
+$force = if ($env:THAKURCODE_FORCE -eq "1" -or $args -contains "--force" -or $args -contains "-f") { $true } else { $false }
+
+# Check installed version to avoid redundant downloads
+if ((Test-Path $targetPath) -and (-not $force)) {
+    $installedVersion = (& $targetPath --version 2>$null) -replace '^[vV\s]+', '' -replace '\s+$', ''
+    $targetTag = $version
+    if ($version -eq "latest") {
+        try {
+            $req = [System.Net.WebRequest]::Create("https://github.com/$repo/releases/latest")
+            $req.AllowAutoRedirect = $false
+            $resp = $req.GetResponse()
+            $location = $resp.GetResponseHeader("Location")
+            if ($location -match '/tag/(.+)') {
+                $targetTag = $Matches[1]
+            }
+            $resp.Close()
+        } catch {}
+    }
+    $cleanTarget = $targetTag -replace '^[vV\s]+', '' -replace '\s+$', ''
+
+    if ($installedVersion -and $cleanTarget -and ($cleanTarget -ne "latest") -and ($installedVersion -eq $cleanTarget)) {
+        Write-Host "✓ thakurcode v$installedVersion is already installed and up to date!" -ForegroundColor Green
+        Write-Host "→ Location: $targetPath" -ForegroundColor DarkGray
+        Write-Host "`nRun thakurcode to start.`nTo force re-installation, set `$env:THAKURCODE_FORCE = '1' or pass --force"
+        exit 0
+    }
+}
+
 $tempPath = [System.IO.Path]::GetTempFileName()
 
 Write-Host "→ Downloading $artifact (~86 MB, standalone binary)..." -ForegroundColor Cyan
