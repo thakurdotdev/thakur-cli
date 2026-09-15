@@ -965,8 +965,8 @@ export function Hero({ modelLabel }: { modelLabel: string | undefined }): React.
         ) : null}
         <Box>
           <Text dimColor>
-            <Text color="yellow">/models</Text> switch · <Text color="cyan">/connect</Text> add key ·{" "}
-            <Text color="green">/help</Text> commands
+            <Text color="yellow">/models</Text> switch · <Text color="cyan">/connect</Text> add key
+            · <Text color="green">/help</Text> commands
           </Text>
         </Box>
       </Box>
