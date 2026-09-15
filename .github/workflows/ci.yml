@@ -23,6 +23,12 @@ jobs:
         # Windows CI from Phase 0 — path/process regressions are caught here
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
+      - name: Configure Git line endings
+        shell: bash
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - uses: actions/checkout@v4
 
       - uses: oven-sh/setup-bun@v2
