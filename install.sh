@@ -16,6 +16,7 @@ set -euo pipefail
 if [ -t 1 ]; then
   BOLD="\033[1m"
   CYAN="\033[36m"
+  MAGENTA="\033[35m"
   GREEN="\033[32m"
   YELLOW="\033[33m"
   RED="\033[31m"
@@ -24,6 +25,7 @@ if [ -t 1 ]; then
 else
   BOLD=""
   CYAN=""
+  MAGENTA=""
   GREEN=""
   YELLOW=""
   RED=""
@@ -48,15 +50,14 @@ log_error() {
 }
 
 print_banner() {
-  echo -e "${CYAN}${BOLD}"
-  cat << 'EOF'
-  _   _           _                               _      
- | |_| |__   __ _| | ___   _ _ __ ___ ___   __| | ___ 
- | __| '_ \ / _` | |/ / | | | '__/ __/ _ \ / _` |/ _ \
- | |_| | | | (_| |   <| |_| | | | (_| (_) | (_| |  __/
-  \__|_| |_|\__,_|_|\_\\__,_|_|  \___\___/ \__,_|\___|
-EOF
-  echo -e "${RESET}${DIM}  AI coding harness — multi-model terminal coding agent${RESET}\n"
+  echo ""
+  echo -e "${CYAN}${BOLD}   __  __          __         ${MAGENTA}                    __   ${RESET}"
+  echo -e "${CYAN}${BOLD}  / /_/ /_  ____ _/ /____  ___${MAGENTA}____    _________  ____/ /__ ${RESET}"
+  echo -e "${CYAN}${BOLD} / __/ __ \\/ __ \`/ //_/ / / / ${MAGENTA}___/   / ___/ __ \\/ __  / _ \\\\${RESET}"
+  echo -e "${CYAN}${BOLD}/ /_/ / / / /_/ / ,< / /_/ / /${MAGENTA}      / /__/ /_/ / /_/ /  __/${RESET}"
+  echo -e "${CYAN}${BOLD}\\__/_/ /_/\\__,_/_/|_|\\__,_/_/ ${MAGENTA}      \\___/\\____/\\__,_/\\___/ ${RESET}"
+  echo ""
+  echo -e "  ${DIM}thakurcode • multi-model AI coding agent for terminal${RESET}\n"
 }
 
 # Detect operating system
@@ -224,19 +225,14 @@ main() {
 
   # Skip download if already on the latest / target version
   if [ -n "$clean_installed" ] && [ -n "$clean_target" ] && [ "$clean_target" != "latest" ] && [ "$clean_installed" = "$clean_target" ] && [ "$force" -eq 0 ]; then
-    log_success "${BOLD}thakurcode v${clean_installed}${RESET} is already installed and up to date!"
-    log_info "Location: ${DIM}${target_binary}${RESET}"
-
-    # Ensure PATH and symlink are present
-    update_shell_path "$install_dir"
-    if [[ ":$PATH:" == *":$HOME/.local/bin:"* ]] && [ -d "$HOME/.local/bin" ] && [ -w "$HOME/.local/bin" ]; then
-      ln -sf "$target_binary" "$HOME/.local/bin/thakurcode" 2>/dev/null || true
-      ln -sf "$legacy_binary" "$HOME/.local/bin/harness" 2>/dev/null || true
-    fi
-
     echo ""
-    echo -e "Run ${CYAN}${BOLD}thakurcode${RESET} to start."
-    echo -e "${DIM}To force re-installation, run with THAKURCODE_FORCE=1 or pass --force${RESET}"
+    echo -e "${GREEN}${BOLD}┌─────────────────────────────────────────────────────────────┐${RESET}"
+    echo -e "${GREEN}${BOLD}│${RESET}  ${GREEN}✓${RESET} ${BOLD}thakurcode v${clean_installed}${RESET} is already installed and up to date!      ${GREEN}${BOLD}│${RESET}"
+    echo -e "${GREEN}${BOLD}└─────────────────────────────────────────────────────────────┘${RESET}"
+    echo -e "  ${DIM}Location: ${target_binary}${RESET}"
+    echo ""
+    echo -e "  Run ${CYAN}${BOLD}thakurcode${RESET} to start."
+    echo -e "  ${DIM}To force re-installation, run with THAKURCODE_FORCE=1 or pass --force${RESET}"
     echo ""
     return 0
   fi
@@ -346,24 +342,23 @@ main() {
   # Update Shell PATH
   update_shell_path "$install_dir"
 
-  log_success "${BOLD}thakurcode${RESET} successfully installed to ${BOLD}${target_binary}${RESET}"
-
   echo ""
-  echo -e "${GREEN}${BOLD}Installation Complete!${RESET}"
-  echo ""
-  echo "To get started:"
+  echo -e "${GREEN}${BOLD}┌─────────────────────────────────────────────────────────────┐${RESET}"
+  echo -e "${GREEN}${BOLD}│${RESET}  ${GREEN}✓${RESET} ${BOLD}thakurcode installed successfully!${RESET}                        ${GREEN}${BOLD}│${RESET}"
+  echo -e "${GREEN}${BOLD}└─────────────────────────────────────────────────────────────┘${RESET}"
+  echo -e "  ${DIM}Location: ${target_binary}${RESET}"
   echo ""
   if [[ ":$PATH:" != *":$install_dir:"* ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     echo -e "  ${YELLOW}1. Reload your environment:${RESET}"
-    echo -e "     ${BOLD}export PATH=\"$install_dir:\$PATH\"${RESET}  ${DIM}(or restart your terminal)${RESET}"
+    echo -e "     ${BOLD}export PATH=\"$install_dir:\$PATH\"${RESET}  ${DIM}(or open a new terminal tab)${RESET}"
     echo ""
-    echo -e "  ${YELLOW}2. Run thakurcode:${RESET}"
+    echo -e "  ${YELLOW}2. Quick start:${RESET}"
   else
-    echo -e "  ${YELLOW}Run thakurcode:${RESET}"
+    echo -e "  ${YELLOW}Quick start:${RESET}"
   fi
-  echo -e "     ${CYAN}${BOLD}thakurcode${RESET}                   # Start chat REPL"
-  echo -e "     ${CYAN}${BOLD}thakurcode auth <provider> <key>${RESET} # Store API key"
-  echo -e "     ${CYAN}${BOLD}thakurcode --help${RESET}             # Show all commands and options"
+  echo -e "     ${CYAN}${BOLD}thakurcode${RESET}                   ${DIM}# Start interactive REPL${RESET}"
+  echo -e "     ${CYAN}${BOLD}thakurcode auth <provider>${RESET}   ${DIM}# Configure provider API key${RESET}"
+  echo -e "     ${CYAN}${BOLD}thakurcode --help${RESET}            ${DIM}# Show all options & commands${RESET}"
   echo ""
 }
 

@@ -924,12 +924,12 @@ export function PermissionDialog({
 
 // --- Welcome hero -----------------------------------------------------------
 
-const LOGO_LINES = [
-  " _   _                             ",
-  "| | | |   __ _ _ __  _ __ ___  _   _| |",
-  "| |_| |  / _` | '_ \\| '_ ` _ \\| | | | |",
-  "|  _  | | (_| | | | | | | | | | |_| | |",
-  "|_| |_|  \\__,_|_| |_|_| |_| |_|\\__,_|_|",
+const LOGO_PARTS = [
+  { t: "   __  __          __         ", c: "                    __   " },
+  { t: "  / /_/ /_  ____ _/ /____  ___", c: "____    _________  ____/ /__ " },
+  { t: " / __/ __ \\/ __ `/ //_/ / / / ", c: "___/   / ___/ __ \\/ __  / _ \\" },
+  { t: "/ /_/ / / / /_/ / ,< / /_/ / /", c: "      / /__/ /_/ / /_/ /  __/" },
+  { t: "\\__/_/ /_/\\__,_/_/|_|\\__,_/_/ ", c: "      \\___/\\____/\\__,_/\\___/ " },
 ] as const;
 
 /** The welcome hero — rendered until the first transcript item exists. */
@@ -937,27 +937,39 @@ export function Hero({ modelLabel }: { modelLabel: string | undefined }): React.
   return (
     <Box flexDirection="column" marginBottom={1}>
       <Box flexDirection="column" alignItems="center" marginTop={1}>
-        {LOGO_LINES.map((line) => (
-          <Text key={line} color="magenta">
-            {line}
-          </Text>
+        {LOGO_PARTS.map((part, index) => (
+          <Box key={index}>
+            <Text color="cyan" bold>
+              {part.t}
+            </Text>
+            <Text color="magenta" bold>
+              {part.c}
+            </Text>
+          </Box>
         ))}
-        <Text dimColor> AI coding agent — multi-model, tool-using, permission-aware</Text>
+        <Box marginTop={1}>
+          <Text dimColor>AI coding agent </Text>
+          <Text color="gray">·</Text>
+          <Text dimColor> multi-model, tool-using, permission-aware</Text>
+        </Box>
       </Box>
-      <Box marginTop={1}>
-        <Text dimColor>
-          <Text color="yellow">● </Text>
-          Tip /models to pick a model live from your providers · /help for commands
-        </Text>
-      </Box>
-      {modelLabel !== undefined ? (
+      <Box marginTop={1} flexDirection="column" alignItems="center">
+        {modelLabel !== undefined ? (
+          <Box>
+            <Text color="magenta">● </Text>
+            <Text dimColor>model </Text>
+            <Text bold color="white">
+              {modelLabel}
+            </Text>
+          </Box>
+        ) : null}
         <Box>
           <Text dimColor>
-            <Text color="magenta">● </Text>
-            current model {modelLabel}
+            <Text color="yellow">/models</Text> switch · <Text color="cyan">/connect</Text> add key ·{" "}
+            <Text color="green">/help</Text> commands
           </Text>
         </Box>
-      ) : null}
+      </Box>
     </Box>
   );
 }

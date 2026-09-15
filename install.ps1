@@ -9,13 +9,13 @@ $version = if ($env:THAKURCODE_VERSION) { $env:THAKURCODE_VERSION } else { "late
 $installDir = if ($env:THAKURCODE_INSTALL_DIR) { $env:THAKURCODE_INSTALL_DIR } else { "$env:USERPROFILE\.thakurcode\bin" }
 
 Write-Host "
-  _   _           _                               _      
- | |_| |__   __ _| | ___   _ _ __ ___ ___   __| | ___ 
- | __| '_ \ / _` | |/ / | | | '__/ __/ _ \ / _` |/ _ \
- | |_| | | | (_| |   <| |_| | | | (_| (_) | (_| |  __/
-  \__|_| |_|\__,_|_|\_\\__,_|_|  \___\___/ \__,_|\___|
+   __  __          __                             __   
+  / /_/ /_  ____ _/ /____  _______    _________  ____/ /__ 
+ / __/ __ \/ __ `/ //_/ / / / ___/   / ___/ __ \/ __  / _ \
+/ /_/ / / / /_/ / ,< / /_/ / /      / /__/ /_/ / /_/ /  __/
+\__/_/ /_/\__,_/_/|_|\__,_/_/       \___/\____/\__,_/\___/ 
 
-  AI coding harness — multi-model terminal coding agent
+  thakurcode • multi-model AI coding agent for terminal
 " -ForegroundColor Cyan
 
 $arch = if ([System.Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" }
@@ -61,9 +61,12 @@ if ((Test-Path $targetPath) -and (-not $force)) {
     $cleanTarget = $targetTag -replace '^[vV\s]+', '' -replace '\s+$', ''
 
     if ($installedVersion -and $cleanTarget -and ($cleanTarget -ne "latest") -and ($installedVersion -eq $cleanTarget)) {
-        Write-Host "✓ thakurcode v$installedVersion is already installed and up to date!" -ForegroundColor Green
-        Write-Host "→ Location: $targetPath" -ForegroundColor DarkGray
-        Write-Host "`nRun thakurcode to start.`nTo force re-installation, set `$env:THAKURCODE_FORCE = '1' or pass --force"
+        Write-Host ""
+        Write-Host "┌─────────────────────────────────────────────────────────────┐" -ForegroundColor Green
+        Write-Host "│  ✓ thakurcode v$installedVersion is already installed and up to date!      │" -ForegroundColor Green
+        Write-Host "└─────────────────────────────────────────────────────────────┘" -ForegroundColor Green
+        Write-Host "  Location: $targetPath" -ForegroundColor DarkGray
+        Write-Host "`n  Run thakurcode to start.`n  To force re-installation, set `$env:THAKURCODE_FORCE = '1' or pass --force`n"
         exit 0
     }
 }
@@ -111,11 +114,13 @@ if ($pathEntries -notcontains $installDir) {
 }
 
 Write-Host "
-Installation Complete!
-To get started:
-  1. If running in an existing PowerShell session, reload PATH or restart terminal.
-  2. Run:
-     thakurcode                   # Start chat REPL
-     thakurcode auth <provider>   # Configure API key
-     thakurcode --help            # Show all options
+┌─────────────────────────────────────────────────────────────┐
+│  ✓ thakurcode installed successfully!                       │
+└─────────────────────────────────────────────────────────────┘
+  Location: $targetPath
+
+Quick start:
+  thakurcode                   # Start chat REPL
+  thakurcode auth <provider>   # Configure API key
+  thakurcode --help            # Show all options
 " -ForegroundColor Green
