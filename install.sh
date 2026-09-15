@@ -212,15 +212,15 @@ main() {
     download_url="https://github.com/${repo}/releases/download/${version}/${target_artifact}"
   fi
 
-  log_info "Downloading ${target_artifact}..."
+  log_info "Downloading ${target_artifact} (~80 MB, standalone binary)..."
 
   # Attempt download from URL
   if command -v curl >/dev/null 2>&1; then
-    if curl -fSL --progress-bar -o "$temp_file" "$download_url" 2>/dev/null; then
+    if curl -fL --progress-bar -o "$temp_file" "$download_url"; then
       downloaded=1
     fi
   elif command -v wget >/dev/null 2>&1; then
-    if wget -q --show-progress -O "$temp_file" "$download_url" 2>/dev/null; then
+    if wget -q --show-progress -O "$temp_file" "$download_url"; then
       downloaded=1
     fi
   fi

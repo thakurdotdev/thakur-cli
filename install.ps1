@@ -41,7 +41,7 @@ $targetPath = Join-Path $installDir "thakurcode.exe"
 $legacyPath = Join-Path $installDir "harness.exe"
 $tempPath = [System.IO.Path]::GetTempFileName()
 
-Write-Host "→ Downloading $artifact..." -ForegroundColor Cyan
+Write-Host "→ Downloading $artifact (~86 MB, standalone binary)..." -ForegroundColor Cyan
 
 $downloaded = $false
 try {
